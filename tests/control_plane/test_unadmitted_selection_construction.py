@@ -1,12 +1,14 @@
 """Typed rejection builds recovery before any settlement capability exists."""
 from __future__ import annotations
 
+import argparse
 from copy import deepcopy
 import shlex
 
 import pytest
 
 from loopx.cli_commands.quota_action_selection import (
+    _requested_quota_action_todo_id,
     _requested_quota_action_selection_preflight,
 )
 from loopx.control_plane.work_items import interaction_contract
@@ -14,6 +16,16 @@ from loopx.control_plane.work_items.action_selection_contract import (
     action_selection_needs_recovery,
     bind_action_selection_recovery_command,
 )
+
+
+def test_codex_cli_turn_can_request_explicit_todo_selection():
+    args = argparse.Namespace(
+        codex_app=False,
+        trae_app=False,
+        runtime_profile="codex_cli",
+        todo_id="todo_123",
+    )
+    assert _requested_quota_action_todo_id(args) == "todo_123"
 
 
 def _source(state: str) -> dict:

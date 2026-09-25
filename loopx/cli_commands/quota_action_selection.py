@@ -20,6 +20,7 @@ from ..control_plane.quota.heartbeat_receipt import (
 )
 from ..control_plane.scheduler.execution_context import (
     GUIDED_START_TURN_RUNTIME_PROFILES,
+    SchedulerRuntimeProfile,
     render_scheduler_execution_args,
 )
 from ..control_plane.todos.contract import normalize_todo_id
@@ -71,6 +72,7 @@ def _requested_quota_action_todo_id(
     if not (
         bool(args.codex_app)
         or bool(getattr(args, "trae_app", False))
+        or args.runtime_profile == SchedulerRuntimeProfile.CODEX_CLI_VISIBLE.value
         or args.runtime_profile
         in {profile.value for profile in GUIDED_START_TURN_RUNTIME_PROFILES}
     ):
